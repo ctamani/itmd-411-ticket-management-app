@@ -40,8 +40,8 @@ public class Dao {
 
 	public void createTables() {
 		// variables for SQL Query table creations
-		final String createTicketsTable = "CREATE TABLE IF NOT EXISTS ctamanifinal_tickets(ticket_id INT AUTO_INCREMENT PRIMARY KEY, ticket_issuer VARCHAR(30), ticket_description VARCHAR(200), start_Date DATETIME, end_date DATETIME, status VARCHAR(20))";
-		final String createUsersTable = "CREATE TABLE IF NOT EXISTS ctamanifinal_users(uid INT AUTO_INCREMENT PRIMARY KEY, uname VARCHAR(30), upass VARCHAR(30), admin int)";
+		final String createTicketsTable = "CREATE TABLE IF NOT EXISTS achik_tickets(ticket_id INT AUTO_INCREMENT PRIMARY KEY, ticket_issuer VARCHAR(30), ticket_description VARCHAR(200), start_Date DATETIME, end_date DATETIME, status VARCHAR(20))";
+		final String createUsersTable = "CREATE TABLE IF NOT EXISTS achik_users(uid INT AUTO_INCREMENT PRIMARY KEY, uname VARCHAR(30), upass VARCHAR(30), admin int)";
 
 		try {
             // execute queries to create tables
@@ -67,7 +67,7 @@ public class Dao {
         // add list of users from userlist.csv file to users table
 
         // variables for SQL Query inserts
-        String sql = "insert into ctamanifinal_users(uname, upass, admin) values(?, ?, ?)";
+        String sql = "insert into achik_users(uname, upass, admin) values(?, ?, ?)";
 
         BufferedReader br;
         List<List<String>> array = new ArrayList<>(); // list to hold (rows & cols)
@@ -114,7 +114,7 @@ public class Dao {
     public int insertRecords(String ticketName, String ticketDesc) {
         int id = 0;
         try {
-            String sql = "INSERT INTO ctamanifinal_tickets " +
+            String sql = "INSERT INTO achik_tickets " +
                          "(ticket_issuer, ticket_description, start_date, end_date, status) " +
                          "VALUES (?, ?, NOW(), NULL, ?)";
 
@@ -152,11 +152,11 @@ public class Dao {
             Connection conn = getConnection();
 
             if (isAdmin) {
-                String sql = "SELECT * FROM ctamanifinal_tickets";
+                String sql = "SELECT * FROM achik_tickets";
                 PreparedStatement ps = conn.prepareStatement(sql);
                 results = ps.executeQuery();
             } else {
-                String sql = "SELECT * FROM ctamanifinal_tickets WHERE ticket_issuer = ?";
+                String sql = "SELECT * FROM achik_tickets WHERE ticket_issuer = ?";
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ps.setString(1, username);
                 results = ps.executeQuery();
@@ -175,7 +175,7 @@ public class Dao {
         int status = 0;
 
         try {
-            String sql = "UPDATE ctamanifinal_tickets SET ticket_description = ? WHERE ticket_id = ?";
+            String sql = "UPDATE achik_tickets SET ticket_description = ? WHERE ticket_id = ?";
 
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -199,7 +199,7 @@ public class Dao {
         int status = 0;
 
         try {
-            String sql = "DELETE FROM ctamanifinal_tickets WHERE ticket_id = ?";
+            String sql = "DELETE FROM achik_tickets WHERE ticket_id = ?";
 
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -225,12 +225,12 @@ public class Dao {
             Connection conn = getConnection();
 
             if (isAdmin) {
-                String sql = "SELECT * FROM ctamanifinal_tickets WHERE ticket_id = ?";
+                String sql = "SELECT * FROM achik_tickets WHERE ticket_id = ?";
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ps.setInt(1, ticketId);
                 results = ps.executeQuery();
             } else {
-                String sql = "SELECT * FROM ctamanifinal_tickets WHERE ticket_id = ? AND ticket_issuer = ?";
+                String sql = "SELECT * FROM achik_tickets WHERE ticket_id = ? AND ticket_issuer = ?";
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ps.setInt(1, ticketId);
                 ps.setString(2, username);
@@ -248,7 +248,7 @@ public class Dao {
         int result = 0;
 
         try {
-            String sql = "UPDATE ctamanifinal_tickets " +
+            String sql = "UPDATE achik_tickets " +
                          "SET end_date = NOW(), status = ? " +
                          "WHERE ticket_id = ? AND end_date IS NULL";
 
